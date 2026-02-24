@@ -6,10 +6,10 @@ import domain.Product;
 import dto.product.CreateProductDTO;
 import dto.product.ProductResponseDTO;
 import dto.product.UpdateProductDTO;
+import exception.NotFoundException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.NotFoundException;
 import mapper.EntityMapper;
 import repository.ProductRepository;
 
@@ -28,7 +28,7 @@ public class ProductService {
   }
 
   public Product findById(Long id) {
-    return productRepository.findById(id);
+    return productRepository.findByIdOptional(id).orElseThrow(() -> new NotFoundException("Product not found"));
   }
 
   @Transactional

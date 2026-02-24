@@ -6,11 +6,11 @@ import domain.RawMaterial;
 import dto.rawmaterial.CreateRawMaterialDTO;
 import dto.rawmaterial.RawMaterialResponseDTO;
 import dto.rawmaterial.UpdateRawMaterialDTO;
+import exception.NotFoundException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.NotFoundException;
 import mapper.EntityMapper;
 import repository.RawMaterialRepository;
 
@@ -29,7 +29,8 @@ public class RawMaterialService {
   }
 
   public RawMaterial findById(Long id) {
-    return rawMaterialRepository.findById(id);
+    return rawMaterialRepository.findByIdOptional(id)
+        .orElseThrow(() -> new NotFoundException("Raw material not found"));
   }
 
   @Transactional
