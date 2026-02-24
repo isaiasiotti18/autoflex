@@ -1,0 +1,11 @@
+{
+    "java.compile.nullAnalysis.mode": "automatic",
+    "microprofile.tools.validation.unknown.excluded": [
+        "*/mp-rest/providers/*/priority",
+        "mp.openapi.schema.*",
+        "kafka-streams.*",
+        "camel.*",
+        "quarkus.datasource.db-king",
+        "quarkus.datasource.*"
+    ]
+}
