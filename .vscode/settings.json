@@ -12,5 +12,8 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[java]": {
     "editor.defaultFormatter": "redhat.java"
+  },
+  "[quarkus-properties]": {
+    "editor.defaultFormatter": "redhat.vscode-microprofile"
   }
 }

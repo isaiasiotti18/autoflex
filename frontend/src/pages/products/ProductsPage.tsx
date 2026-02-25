@@ -1,4 +1,8 @@
+import { Suspense } from "react";
 import { Link } from "react-router-dom";
+import { ProductsTableRows } from "./ProductsTableRow";
+import { QueryErrorResetBoundary } from "@tanstack/react-query";
+import { ErrorBoundary } from "react-error-boundary";
 
 export function ProductsPage() {
   return (
@@ -28,7 +32,7 @@ export function ProductsPage() {
           <table className="min-w-full text-sm">
             <thead className="border-b bg-slate-50 text-left text-slate-600">
               <tr>
-                <th className="px-4 py-3 font-medium">ID</th>
+                <th className="hidden px-4 py-3 font-medium sm:table-cell">ID</th>
                 <th className="px-4 py-3 font-medium">Name</th>
                 <th className="px-4 py-3 font-medium">Raw Materials</th>
                 <th className="px-4 py-3 text-right font-medium">Actions</th>
@@ -36,36 +40,41 @@ export function ProductsPage() {
             </thead>
 
             <tbody>
-              {/* Static empty state row (MVP) */}
-              <tr>
-                <td colSpan={4} className="px-4 py-10 text-center text-slate-500">
-                  No products found.
-                </td>
-              </tr>
-
-              {/* Example static row (uncomment if you want a visual preview)
-              <tr className="border-t">
-                <td className="px-4 py-3">1</td>
-                <td className="px-4 py-3">Chocolate Cake</td>
-                <td className="px-4 py-3">3 items</td>
-                <td className="px-4 py-3">
-                  <div className="flex justify-end gap-2">
-                    <Link
-                      to="/products/1/edit"
-                      className="rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
+              <QueryErrorResetBoundary>
+                {({ reset }) => (
+                  <ErrorBoundary
+                    onReset={reset}
+                    fallbackRender={({ resetErrorBoundary }) => (
+                      <tr>
+                        <td colSpan={4} className="px-4 py-10 text-center">
+                          <div className="space-y-2">
+                            <p className="text-sm text-red-600">Failed to load products.</p>
+                            <button
+                              type="button"
+                              onClick={resetErrorBoundary}
+                              className="rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
+                            >
+                              Try again
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  >
+                    <Suspense
+                      fallback={
+                        <tr>
+                          <td colSpan={4} className="px-4 py-10 text-center text-slate-500">
+                            Loading products...
+                          </td>
+                        </tr>
+                      }
                     >
-                      Edit
-                    </Link>
-                    <button
-                      type="button"
-                      className="rounded-md border border-red-300 px-3 py-1.5 text-xs font-medium text-red-700 hover:bg-red-50"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              */}
+                      <ProductsTableRows />
+                    </Suspense>
+                  </ErrorBoundary>
+                )}
+              </QueryErrorResetBoundary>
             </tbody>
           </table>
         </div>

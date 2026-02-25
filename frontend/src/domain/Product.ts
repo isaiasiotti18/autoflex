@@ -5,9 +5,9 @@ export type ProductRawMaterialSummary = {
 };
 
 export interface Product {
-  id: Number;
-  name: String;
-  value: Number;
+  id: number;
+  name: string;
+  value: number;
   rawMaterials: Array<ProductRawMaterialSummary> | [];
 }
 
