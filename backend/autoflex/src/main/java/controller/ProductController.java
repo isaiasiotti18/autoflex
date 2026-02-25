@@ -2,7 +2,6 @@ package controller;
 
 import java.util.List;
 
-import domain.Product;
 import dto.product.CreateProductDTO;
 import dto.product.ProductResponseDTO;
 import dto.product.UpdateProductDTO;
