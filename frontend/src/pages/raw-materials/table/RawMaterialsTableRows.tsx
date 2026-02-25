@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useRawMaterialsTable } from "../../hooks/useRawMaterialsTable";
+import { useRawMaterialsTable } from "../../../hooks/useRawMaterialsTable";
 
 export function RawMaterialsTableRows() {
   const { rawMaterials, isDeleting, handleDelete } = useRawMaterialsTable();
@@ -21,7 +21,7 @@ export function RawMaterialsTableRows() {
           <td className="hidden px-4 py-3 sm:table-cell">{item.id}</td>
 
           <td className="px-4 py-3">
-            <div className="max-w-[180px] break-words sm:max-w-none">{item.name}</div>
+            <div className="max-w-45 wrap-break-word sm:max-w-none">{item.name}</div>
             <div className="mt-1 text-xs text-slate-500 sm:hidden">ID: {item.id}</div>
           </td>
 

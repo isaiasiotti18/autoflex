@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { Suspense } from "react";
-import { QueryErrorResetBoundary } from "@tanstack/react-query";
-import { ErrorBoundary } from "react-error-boundary";
-import { RawMaterialsTableRows } from "./RawMaterialsTableRows";
+
+import { RawMaterialsTableHead } from "./table/RawMaterialsTableHead";
+import { RawMaterialsTableBody } from "./table/RawMaterialsTableBody";
+import { RawMaterialsTableRows } from "./table/RawMaterialsTableRows";
 
 export function RawMaterialsPage() {
   return (
@@ -18,7 +18,7 @@ export function RawMaterialsPage() {
           </div>
 
           <Link
-            to="/raw-materials/new"
+            to="/raw-materials/create"
             className="inline-flex w-full items-center justify-center rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:opacity-90 sm:w-auto"
           >
             Create raw material
@@ -30,52 +30,11 @@ export function RawMaterialsPage() {
       <section className="rounded-xl border bg-white shadow-sm">
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm">
-            <thead className="border-b bg-slate-50 text-left text-slate-600">
-              <tr>
-                <th className="hidden px-4 py-3 font-medium sm:table-cell">ID</th>
-                <th className="px-4 py-3 font-medium">Name</th>
-                <th className="px-4 py-3 font-medium">Quantity</th>
-                <th className="px-4 py-3 text-right font-medium">Actions</th>
-              </tr>
-            </thead>
+            <RawMaterialsTableHead />
 
-            <tbody>
-              <QueryErrorResetBoundary>
-                {({ reset }) => (
-                  <ErrorBoundary
-                    onReset={reset}
-                    fallbackRender={({ resetErrorBoundary }) => (
-                      <tr>
-                        <td colSpan={4} className="px-4 py-10 text-center">
-                          <div className="space-y-2">
-                            <p className="text-sm text-red-600">Failed to load raw materials.</p>
-                            <button
-                              type="button"
-                              onClick={resetErrorBoundary}
-                              className="rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
-                            >
-                              Try again
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    )}
-                  >
-                    <Suspense
-                      fallback={
-                        <tr>
-                          <td colSpan={4} className="px-4 py-10 text-center text-slate-500">
-                            Loading raw materials...
-                          </td>
-                        </tr>
-                      }
-                    >
-                      <RawMaterialsTableRows />
-                    </Suspense>
-                  </ErrorBoundary>
-                )}
-              </QueryErrorResetBoundary>
-            </tbody>
+            <RawMaterialsTableBody>
+              <RawMaterialsTableRows />
+            </RawMaterialsTableBody>
           </table>
         </div>
       </section>

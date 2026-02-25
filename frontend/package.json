@@ -12,6 +12,7 @@
     "format:run": "prettier . --write"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@reduxjs/toolkit": "^2.11.2",
     "@tailwindcss/vite": "^4.2.1",
     "@tanstack/react-query": "^5.90.21",
@@ -20,6 +21,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-error-boundary": "^6.1.1",
+    "react-hook-form": "^7.71.2",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.13.1",
     "tailwindcss": "^4.2.1"
