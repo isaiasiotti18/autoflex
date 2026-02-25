@@ -7,6 +7,8 @@ export function useProductsTable() {
   const { data: products } = useSuspenseQuery({
     queryKey: ["products"],
     queryFn: productApi.list,
+    retry: false,
+    refetchOnWindowFocus: false,
   });
 
   const deleteMutation = useMutation({
