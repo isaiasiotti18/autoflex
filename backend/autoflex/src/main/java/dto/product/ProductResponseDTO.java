@@ -1,9 +1,11 @@
 package dto.product;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public record ProductResponseDTO(
     Long id,
     String name,
-    BigDecimal value) {
+    BigDecimal value,
+    List<ProductRawMaterialResponseDTO> rawMaterials) {
 }

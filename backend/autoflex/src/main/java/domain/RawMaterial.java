@@ -9,9 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "raw_materials")
@@ -32,7 +29,7 @@ public class RawMaterial implements Serializable {
   public RawMaterial() {
   }
 
-  public RawMaterial(@NotBlank String name, @Min(0) Integer quantity) {
+  public RawMaterial(String name, Integer quantity) {
     this.name = name;
     this.quantity = quantity;
   }

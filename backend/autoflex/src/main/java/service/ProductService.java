@@ -23,12 +23,16 @@ public class ProductService {
     this.productRepository = productRepository;
   }
 
-  public List<Product> listAll() {
-    return productRepository.listAll();
+  public List<ProductResponseDTO> listAll() {
+    return productRepository.listAllWithRawMaterials().stream()
+        .map(EntityMapper::toDTO)
+        .toList();
   }
 
-  public Product findById(Long id) {
-    return productRepository.findByIdOptional(id).orElseThrow(() -> new NotFoundException("Product not found"));
+  public ProductResponseDTO findById(Long id) {
+    return productRepository.findByIdWithRawMaterials(id)
+        .map(EntityMapper::toDTO)
+        .orElseThrow(() -> new NotFoundException("Product not found"));
   }
 
   @Transactional

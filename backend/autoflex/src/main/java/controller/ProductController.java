@@ -29,14 +29,14 @@ public class ProductController {
   ProductService productService;
 
   @GET
-  public List<Product> list() {
+  public List<ProductResponseDTO> list() {
     return productService.listAll();
   }
 
   @GET
   @Path("/{id}")
   public Response findById(@PathParam("id") Long id) {
-    Product product = productService.findById(id);
+    ProductResponseDTO product = productService.findById(id);
 
     if (product == null) {
       return Response.status(Response.Status.NOT_FOUND).build();
