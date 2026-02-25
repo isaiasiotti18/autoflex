@@ -13,7 +13,8 @@ export function ProductCreateFormContainer() {
       submitLabel="Create product"
       onSubmit={async (values) => {
         await submit(values);
-        navigate("/products");
+        const created = await submit(values);
+        navigate(`/products/${created.id}/edit#raw-materials`);
       }}
     />
   );
