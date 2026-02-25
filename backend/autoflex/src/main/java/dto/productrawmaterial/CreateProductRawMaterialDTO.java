@@ -3,7 +3,7 @@ package dto.productrawmaterial;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-public record ProductRawMaterialRequestDTO(
+public record CreateProductRawMaterialDTO(
     @NotNull(message = "productId is required") Long productId,
 
     @NotNull(message = "rawMaterialId is required") Long rawMaterialId,
