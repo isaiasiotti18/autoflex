@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useProductsTable } from "../../hooks/useProductsTable";
+import { formatMoney2 } from "../../utils/formatMoney";
 
 export function ProductsTableRows() {
   const { products, isDeleting, handleDelete } = useProductsTable();
@@ -42,6 +43,12 @@ export function ProductsTableRows() {
                 ))}
               </div>
             )}
+          </td>
+
+          <td className="px-4 py-3">
+            <div className="max-w-[140px] break-words sm:max-w-none">
+              {formatMoney2(product.value)}
+            </div>
           </td>
 
           <td className="px-4 py-3">
