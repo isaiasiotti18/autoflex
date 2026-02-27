@@ -7,4 +7,6 @@ export const queryKeys = {
 
   productRawMaterialsByProductId: (productId: number) =>
     ["product-raw-materials", productId] as const,
+
+  productionCapacity: ["production-capacity"] as const,
 };

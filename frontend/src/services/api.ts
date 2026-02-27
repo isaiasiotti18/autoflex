@@ -8,16 +8,11 @@ type ApiError = Error & {
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 async function request<T>(path: string, method: HttpMethod, body?: unknown): Promise<T> {
-  const url = `${API_BASE_URL}${path}`;
-  console.log("[API request]", method, url);
-
   const res = await fetch(`${API_BASE_URL}${path}`, {
     method,
     headers: body !== undefined ? { "Content-Type": "application/json" } : undefined,
     body: body !== undefined ? JSON.stringify(body) : undefined,
   });
-
-  console.log("[API response]", res.status, res.statusText, url);
 
   // 204 No Content
   if (res.status === 204) {

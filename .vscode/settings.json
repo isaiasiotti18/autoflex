@@ -15,5 +15,6 @@
   },
   "[quarkus-properties]": {
     "editor.defaultFormatter": "redhat.vscode-microprofile"
-  }
+  },
+  "java.configuration.updateBuildConfiguration": "interactive"
 }
