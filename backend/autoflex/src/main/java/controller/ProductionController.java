@@ -10,7 +10,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import service.ProductionService;
 
-@Path("/production")
+@Path("/production-capacity")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ProductionController {
@@ -19,7 +19,6 @@ public class ProductionController {
   ProductionService productionService;
 
   @GET
-  @Path("/capacity")
   public Map<String, Object> capacity() {
     return productionService.capacity();
   }
