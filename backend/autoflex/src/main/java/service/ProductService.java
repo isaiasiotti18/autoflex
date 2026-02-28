@@ -16,30 +16,34 @@ import repository.ProductRepository;
 @ApplicationScoped
 public class ProductService {
 
-  private final ProductRepository productRepository;
+  @Inject
+  ProductRepository productRepository;
 
   @Inject
-  public ProductService(ProductRepository productRepository) {
-    this.productRepository = productRepository;
-  }
+  EntityMapper mapper;
+
+  // @Inject
+  // public ProductService(ProductRepository productRepository) {
+  // this.productRepository = productRepository;
+  // }
 
   public List<ProductResponseDTO> listAll() {
     return productRepository.listAllWithRawMaterials().stream()
-        .map(EntityMapper::toDTO)
+        .map(mapper::toDTO)
         .toList();
   }
 
   public ProductResponseDTO findById(Long id) {
     return productRepository.findByIdWithRawMaterials(id)
-        .map(EntityMapper::toDTO)
+        .map(mapper::toDTO)
         .orElseThrow(() -> new NotFoundException("Product not found"));
   }
 
   @Transactional
   public ProductResponseDTO create(CreateProductDTO dto) {
-    Product product = EntityMapper.toEntity(dto);
+    Product product = mapper.toEntity(dto);
     productRepository.persist(product);
-    return EntityMapper.toDTO(product);
+    return mapper.toDTO(product);
   }
 
   @Transactional
@@ -58,7 +62,7 @@ public class ProductService {
       product.setValue(dto.value());
     }
 
-    return EntityMapper.toDTO(product);
+    return mapper.toDTO(product);
   }
 
   @Transactional

@@ -17,12 +17,11 @@ import repository.RawMaterialRepository;
 @ApplicationScoped
 public class RawMaterialService {
 
-  private final RawMaterialRepository rawMaterialRepository;
+  @Inject
+  RawMaterialRepository rawMaterialRepository;
 
   @Inject
-  public RawMaterialService(RawMaterialRepository rawMaterialRepository) {
-    this.rawMaterialRepository = rawMaterialRepository;
-  }
+  EntityMapper mapper;
 
   public List<RawMaterial> listAll() {
     return rawMaterialRepository.listAll();
@@ -35,9 +34,9 @@ public class RawMaterialService {
 
   @Transactional
   public RawMaterialResponseDTO create(@Valid CreateRawMaterialDTO dto) {
-    RawMaterial rawMaterial = EntityMapper.toEntity(dto);
+    RawMaterial rawMaterial = mapper.toEntity(dto);
     rawMaterialRepository.persist(rawMaterial);
-    return EntityMapper.toDTO(rawMaterial);
+    return mapper.toDTO(rawMaterial);
   }
 
   @Transactional
@@ -56,7 +55,7 @@ public class RawMaterialService {
       existingRawMaterial.setQuantity(dto.quantity());
     }
 
-    return EntityMapper.toDTO(existingRawMaterial);
+    return mapper.toDTO(existingRawMaterial);
   }
 
   @Transactional
