@@ -3,6 +3,8 @@ package domain;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -13,11 +15,12 @@ public class ProductRawMaterial implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
-  @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize = 1)
+  @SequenceGenerator(name = "product_raw_materials_seq", sequenceName = "product_raw_materials_seq", allocationSize = 1)
   private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "product_id", nullable = false)
+  @JsonIgnore
   private Product product;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)

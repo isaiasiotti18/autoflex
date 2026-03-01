@@ -17,7 +17,7 @@ public class RawMaterial implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
-  @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize = 1)
+  @SequenceGenerator(name = "raw_materials_seq", sequenceName = "raw_materials_seq", allocationSize = 1)
   private Long id;
 
   @Column(name = "name", nullable = false, length = 150)
