@@ -8,37 +8,35 @@ Sistema web fullstack para gerenciar produtos, matérias-primas e calcular a cap
 
 ### Back-end
 
-| Tecnologia | Versão |
-|---|---|
-| Java | 25+ |
-| Quarkus | 3.31.4 |
-| Hibernate ORM (Panache) | via Quarkus BOM |
-| MapStruct | 1.6.3 |
-| RESTEasy Jackson | via Quarkus BOM |
+| Tecnologia                 | Versão          |
+| -------------------------- | --------------- |
+| Java                       | 25+             |
+| Quarkus                    | 3.31.4          |
+| Hibernate ORM (Panache)    | via Quarkus BOM |
+| MapStruct                  | 1.6.3           |
+| RESTEasy Jackson           | via Quarkus BOM |
 | SmallRye OpenAPI (Swagger) | via Quarkus BOM |
-| Maven | 3.9+ |
+| Maven                      | 3.9+            |
 
 ### Front-end
 
-| Tecnologia | Versão |
-|---|---|
-| Node.js | 20+ |
-| React | 19.2 |
-| TypeScript | 5.9 |
-| Vite | 7.3 |
-| TailwindCSS | 4.2 |
-| React Router DOM | 7.13 |
-| TanStack React Query | 5.90 |
-| React Hook Form + Zod | 7.71 / via resolvers |
-| React Compiler (babel plugin) | 1.0 |
+| Tecnologia                    | Versão               |
+| ----------------------------- | -------------------- |
+| Node.js                       | 20+                  |
+| React                         | 19.2                 |
+| TypeScript                    | 5.9                  |
+| Vite                          | 7.3                  |
+| TailwindCSS                   | 4.2                  |
+| React Router DOM              | 7.13                 |
+| TanStack React Query          | 5.90                 |
+| React Hook Form + Zod         | 7.71 / via resolvers |
+| React Compiler (babel plugin) | 1.0                  |
 
 ### Dependências externas
 
-| Serviço | Detalhes |
-|---|---|
+| Serviço                | Detalhes                                  |
+| ---------------------- | ----------------------------------------- |
 | **Oracle Database XE** | Instância local — `localhost:1521/XEPDB1` |
-
-> Não utiliza Redis, filas ou APIs externas.
 
 ---
 
@@ -52,7 +50,7 @@ cd autoflex
 # 2. Back-end (terminal 1)
 cd backend/autoflex
 ./mvnw quarkus:dev          # Linux/Mac
-mvnw.cmd quarkus:dev        # Windows
+mvnw.cmd quarkus:dev ou .\mvnw.cmd quarkus:dev        # Windows
 
 # 3. Front-end (terminal 2)
 cd frontend
@@ -60,40 +58,17 @@ npm install
 npm run dev
 ```
 
-| Serviço | URL |
-|---|---|
-| Front-end | http://localhost:5173 |
-| API REST | http://localhost:8080/api |
+| Serviço    | URL                                |
+| ---------- | ---------------------------------- |
+| Front-end  | http://localhost:5173              |
+| API REST   | http://localhost:8080/api          |
 | Swagger UI | http://localhost:8080/q/swagger-ui |
 
-> **Pré-requisito:** Oracle XE rodando em `localhost:1521/XEPDB1` com o usuário/schema `autoflex` criado.
+> **Pré-requisito:** Oracle rodando na Oracle Cloud com o usuario ADMIN senha Autoflex54321.
 
 ---
 
 ## Configuração Detalhada
-
-### Variáveis de ambiente — Back-end
-
-Configuradas em `backend/autoflex/src/main/resources/application.properties`:
-
-| Chave | Descrição | Valor padrão |
-|---|---|---|
-| `quarkus.datasource.db-kind` | Tipo do banco de dados | `oracle` |
-| `quarkus.datasource.username` | Usuário do banco | `autoflex` |
-| `quarkus.datasource.password` | Senha do banco | `Autoflex54321` |
-| `quarkus.datasource.jdbc.url` | URL JDBC de conexão | `jdbc:oracle:thin:@localhost:1521/XEPDB1` |
-| `quarkus.hibernate-orm.database.generation` | Estratégia de DDL | `update` |
-| `quarkus.http.port` | Porta da API | `8080` |
-| `quarkus.http.cors.origins` | Origens CORS permitidas | `*` |
-| `quarkus.resteasy.path` | Prefixo base da API | `/api` |
-
-### Variáveis de ambiente — Front-end
-
-Configuradas em `frontend/.env`:
-
-| Chave | Descrição | Valor padrão |
-|---|---|---|
-| `VITE_API_URL` | URL base da API | `http://localhost:8080/api` |
 
 ### Seeds / Migrations
 
@@ -107,7 +82,7 @@ Configuradas em `frontend/.env`:
 ./mvnw quarkus:dev                # Modo dev com hot-reload
 ./mvnw test                       # Rodar testes
 ./mvnw package                    # Build do JAR
-./mvnw package -Dnative           # Build nativo (GraalVM)
+./mvnw package -Dnative           # Build nativo
 
 # ── Front-end ──
 npm run dev                       # Dev server (Vite)
@@ -140,17 +115,17 @@ autoflex/
 │
 ├── frontend/
 │   └── src/
-│       ├── domain/               # Types/interfaces do domínio
-│       ├── hooks/                # Custom hooks (formulários, queries, mutations)
-│       ├── pages/                # Páginas organizadas por feature
-│       │   ├── products/         #   CRUD de produtos + associação de matérias-primas
-│       │   ├── raw-materials/    #   CRUD de matérias-primas
+│       ├── domain/                  # ENTIDADES
+│       ├── hooks/                   # Custom hooks
+│       ├── pages/                   # Páginas organizadas por feature
+│       │   ├── products/            #   CRUD de produtos + associação de matérias-primas
+│       │   ├── raw-materials/       #   CRUD de matérias-primas
 │       │   ├── production-capacity/ # Listagem de capacidade produtiva
-│       │   └── _layout/          #   Layout principal da aplicação
-│       ├── services/             # Camada de API (fetch wrapper + endpoints)
-│       ├── validations/          # Schemas Zod para validação de formulários
-│       ├── utils/                # Funções utilitárias (formatação de moeda)
-│       └── router.tsx            # Definição de rotas
+│       │   └── _layout/             #   Layout principal da aplicação
+│       ├── services/                # Camada de API (fetch wrapper + endpoints)
+│       ├── validations/             # Schemas Zod para validação de formulários
+│       ├── utils/                   # Funções utilitárias (formatação de moeda)
+│       └── router.tsx               # Definição de rotas
 │
 └── README.md
 ```
@@ -163,38 +138,39 @@ autoflex/
 - [x] CRUD completo de **Matérias-Primas** (nome, quantidade em estoque)
 - [x] **Associação** de matérias-primas a produtos (com quantidade necessária)
 - [x] **Capacidade produtiva** — cálculo de quantos produtos podem ser fabricados com o estoque atual
-- [x] Listagem com dados tabelados
+- [x] Listagem com dados
 - [x] Validação de formulários (Zod + React Hook Form)
 - [x] Validação no back-end (Bean Validation)
 - [x] Tratamento global de exceções (ExceptionMappers)
 - [x] Seed automático de dados na primeira execução
-- [x] Swagger/OpenAPI disponível em `/q/swagger-ui`
-- [x] Interface responsiva (TailwindCSS)
+- [x] Swagger/OpenAPI em `/q/swagger-ui`
+- [x] UI responsiva
 - [x] CORS configurado
 - [ ] Autenticação/autorização
 - [ ] Paginação no back-end
 - [ ] Cache
+- [ ] Controlde de estado global com Redux
 
 ---
 
-## Limitações & Próximos Passos
+## Próximos Passos
 
 ### Limitações conhecidas
 
 - Sem autenticação — qualquer usuário pode acessar todos os endpoints
 - Listagens retornam todos os registros (sem paginação server-side)
 - Sem cache de consultas
-- Depende de Oracle XE rodando localmente (sem Docker Compose para subir o banco)
+- Banco de dados rodando em clouding, porém qualquer um pode acessar
 - Sem testes automatizados no front-end
 
 ### Melhorias planejadas
 
 - Adicionar autenticação JWT (Quarkus OIDC ou SmallRye JWT)
 - Implementar paginação e filtros na API
-- Docker Compose para subir Oracle + back-end + front-end
-- Testes de integração no back-end com `@QuarkusTest`
-- Testes unitários e e2e no front-end (Vitest + Playwright)
-- Cache com Quarkus Cache (`@CacheResult`)
+- Subir backend + frontend
+- Testes de integração no back-end com
+- Testes unitários e e2e no front-end
+- Cache com Quarkus Cache
 
 ---
 
