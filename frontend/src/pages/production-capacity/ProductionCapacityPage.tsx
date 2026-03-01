@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
-import { formatMoney2 } from "../../utils/formatMoney";
-import { useProductionCapacity } from "../../hooks/useProductionCapacity";
 import { ProductionCapacityTableBody } from "./table/ProductionCapacityTableBody";
+import { useProductionCapacity } from "../../hooks/useProductionCapacity";
+import { formatMoney2 } from "../../utils/formatMoney";
 
 export function ProductionCapacityPage() {
-  // Static MVP: using mock to match backend shape.
-  const { data, refresh } = useProductionCapacity();
-
+  const { data } = useProductionCapacity();
   return (
     <div className="space-y-4">
       {/* Header */}
@@ -20,13 +18,11 @@ export function ProductionCapacityPage() {
           </div>
 
           <div className="flex flex-col gap-2 sm:flex-row">
-            <button
-              type="button"
-              onClick={refresh}
-              className="inline-flex w-full items-center justify-center rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:opacity-90 sm:w-auto"
-            >
-              Refresh
-            </button>
+            {/* refresh vai ficar dentro do table body (no error/suspense padrão) */}
+            <span className="inline-flex w-full items-center justify-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-500 sm:w-auto">
+              Use table actions
+            </span>
+
             <Link
               to="/raw-materials"
               className="inline-flex w-full items-center justify-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 sm:w-auto"
@@ -37,7 +33,7 @@ export function ProductionCapacityPage() {
         </div>
       </section>
 
-      {/* Summary */}
+      {/* Summary (static placeholder to avoid hook outside tbody) */}
       <section className="rounded-xl border bg-white p-4 shadow-sm">
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <div className="rounded-lg border bg-slate-50 p-3">
@@ -62,7 +58,7 @@ export function ProductionCapacityPage() {
       </section>
 
       {/* Table */}
-      <section className="rounded-xl border bg-white shadow-sm">
+      <section className="overflow-hidden rounded-xl border bg-white shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full min-w-225 text-sm">
             <thead className="border-b bg-slate-50 text-left text-slate-600">
