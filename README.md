@@ -1,35 +1,207 @@
-# Teste Prático - Autoflex
+# Autoflex — Gestão de Produtos & Matérias-Primas
 
-## Requisitos não funcionais
+Sistema web fullstack para gerenciar produtos, matérias-primas e calcular a capacidade produtiva com base no estoque disponível. Desenvolvido como teste prático para a Autoflex/Projedata.
 
-- [] RNF001 O sistema deverá ser desenvolvido para a plataforma WEB, sendo possível a execução nos principais navegadores (Chrome, Firefox, Edge).
+---
 
-- [] RNF002 O sistema deverá ser construído utilizando o conceito de API, ou seja, separar o back-end do front-end.
+## Stack & Requisitos
 
-- [] RNF003 As telas desenvolvidas no front-end devem utilizar os recursos de responsividade.
+### Back-end
 
-- [] RNF004 A persistência de dados deve ser realizada em Sistema Gerenciador de Banco de Dados, com a possibilidade de utilizar Postgres, MySql ou Oracle. Caso tenha instalado o Oracle, a sugestão é utilizá-lo.
+| Tecnologia | Versão |
+|---|---|
+| Java | 25+ |
+| Quarkus | 3.31.4 |
+| Hibernate ORM (Panache) | via Quarkus BOM |
+| MapStruct | 1.6.3 |
+| RESTEasy Jackson | via Quarkus BOM |
+| SmallRye OpenAPI (Swagger) | via Quarkus BOM |
+| Maven | 3.9+ |
 
-- [] RNF005 O back-end (API) deve ser desenvolvido utilizando algum framework, como Spring, Quarkus ou similar. Caso você conheça Quarkus, a sugestão é que aplique já que é uma das tecnologias utilizadas no Autoflex.
+### Front-end
 
-- [] RNF006 O front-end pode ser desenvolvido utilizando qualquer linguagem ou framework que possibilite o atendimento dos requisitos. Caso você conheça React e Redux, a sugestão é que aplique já que são tecnologias utilizadas no Autoflex.
+| Tecnologia | Versão |
+|---|---|
+| Node.js | 20+ |
+| React | 19.2 |
+| TypeScript | 5.9 |
+| Vite | 7.3 |
+| TailwindCSS | 4.2 |
+| React Router DOM | 7.13 |
+| TanStack React Query | 5.90 |
+| React Hook Form + Zod | 7.71 / via resolvers |
+| React Compiler (babel plugin) | 1.0 |
 
-- [] RNF007 Tanto a codificação do back-end, front-end, tabelas e colunas do banco de dados devem ser desenvolvidas utilizando a língua inglesa.
+### Dependências externas
 
-## Requisitos funcionais
+| Serviço | Detalhes |
+|---|---|
+| **Oracle Database XE** | Instância local — `localhost:1521/XEPDB1` |
 
-- [] RF001 Desenvolver no back-end as funcionalidades CRUD para manter o cadastro de produtos.
+> Não utiliza Redis, filas ou APIs externas.
 
-- [] RF002 Desenvolver no back-end as funcionalidades CRUD para manter o cadastro de matérias primas.
+---
 
-- [] RF003 Desenvolver no back-end as funcionalidades CRUD para associar matérias-primas aos produtos.
+## Quick Start
 
-- [] RF004 Desenvolver no back-end as funcionalidades para a consulta dos produtos que podem ser produzidos com as matérias-primas disponíveis em estoque.
+```bash
+# 1. Clonar o repositório
+git clone https://github.com/isaiasiotti18/autoflex.git
+cd autoflex
 
-- [] RF005 Desenvolver no front-end uma interface gráfica que possibilite realizar as operações CRUD para manter o cadastro de produtos.
+# 2. Back-end (terminal 1)
+cd backend/autoflex
+./mvnw quarkus:dev          # Linux/Mac
+mvnw.cmd quarkus:dev        # Windows
 
-- [] RF006 Desenvolver no front-end uma interface gráfica que possibilite realizar as operações CRUD para manter o cadastro de matérias primas.
+# 3. Front-end (terminal 2)
+cd frontend
+npm install
+npm run dev
+```
 
-- [] RF007 Desenvolver no front-end uma interface gráfica que possibilite realizar as operações CRUD para associar matérias-primas aos produtos. Não há a necessidade de ser uma tela separada, podendo ser inserida a interface no cadastro de produtos.
+| Serviço | URL |
+|---|---|
+| Front-end | http://localhost:5173 |
+| API REST | http://localhost:8080/api |
+| Swagger UI | http://localhost:8080/q/swagger-ui |
 
-- [] RF008 Desenvolver no front-end uma interface gráfica que possibilite listar quais produtos (e quais quantidades) podem ser produzidos com as matérias-primas disponíveis em estoque.
+> **Pré-requisito:** Oracle XE rodando em `localhost:1521/XEPDB1` com o usuário/schema `autoflex` criado.
+
+---
+
+## Configuração Detalhada
+
+### Variáveis de ambiente — Back-end
+
+Configuradas em `backend/autoflex/src/main/resources/application.properties`:
+
+| Chave | Descrição | Valor padrão |
+|---|---|---|
+| `quarkus.datasource.db-kind` | Tipo do banco de dados | `oracle` |
+| `quarkus.datasource.username` | Usuário do banco | `autoflex` |
+| `quarkus.datasource.password` | Senha do banco | `Autoflex54321` |
+| `quarkus.datasource.jdbc.url` | URL JDBC de conexão | `jdbc:oracle:thin:@localhost:1521/XEPDB1` |
+| `quarkus.hibernate-orm.database.generation` | Estratégia de DDL | `update` |
+| `quarkus.http.port` | Porta da API | `8080` |
+| `quarkus.http.cors.origins` | Origens CORS permitidas | `*` |
+| `quarkus.resteasy.path` | Prefixo base da API | `/api` |
+
+### Variáveis de ambiente — Front-end
+
+Configuradas em `frontend/.env`:
+
+| Chave | Descrição | Valor padrão |
+|---|---|---|
+| `VITE_API_URL` | URL base da API | `http://localhost:8080/api` |
+
+### Seeds / Migrations
+
+- **DDL automático:** Hibernate gera/atualiza as tabelas automaticamente (`database.generation=update`).
+- **Seed de dados:** A classe `DataSeeder` popula o banco na primeira execução (21 matérias-primas e 46 produtos com associações) caso as tabelas estejam vazias.
+
+### Comandos úteis
+
+```bash
+# ── Back-end ──
+./mvnw quarkus:dev                # Modo dev com hot-reload
+./mvnw test                       # Rodar testes
+./mvnw package                    # Build do JAR
+./mvnw package -Dnative           # Build nativo (GraalVM)
+
+# ── Front-end ──
+npm run dev                       # Dev server (Vite)
+npm run build                     # Build de produção
+npm run lint                      # ESLint
+npm run format:check              # Verificar formatação (Prettier)
+npm run format:run                # Formatar código (Prettier)
+npm run preview                   # Preview do build de produção
+```
+
+---
+
+## Estrutura do Projeto
+
+```
+autoflex/
+├── backend/autoflex/
+│   ├── src/main/java/
+│   │   ├── controller/           # Endpoints REST (JAX-RS)
+│   │   ├── domain/               # Entidades JPA (Product, RawMaterial, ProductRawMaterial)
+│   │   ├── dto/                  # DTOs de request/response por domínio
+│   │   ├── exception/            # Exceções de negócio + ExceptionMappers
+│   │   ├── helpers/production/   # Lógica de cálculo de capacidade produtiva
+│   │   ├── infra/                # DataSeeder (carga inicial de dados)
+│   │   ├── mapper/               # MapStruct mappers (Entity ↔ DTO)
+│   │   ├── repository/           # Repositórios Panache
+│   │   └── service/              # Camada de serviço / regras de negócio
+│   └── src/main/resources/
+│       └── application.properties
+│
+├── frontend/
+│   └── src/
+│       ├── domain/               # Types/interfaces do domínio
+│       ├── hooks/                # Custom hooks (formulários, queries, mutations)
+│       ├── pages/                # Páginas organizadas por feature
+│       │   ├── products/         #   CRUD de produtos + associação de matérias-primas
+│       │   ├── raw-materials/    #   CRUD de matérias-primas
+│       │   ├── production-capacity/ # Listagem de capacidade produtiva
+│       │   └── _layout/          #   Layout principal da aplicação
+│       ├── services/             # Camada de API (fetch wrapper + endpoints)
+│       ├── validations/          # Schemas Zod para validação de formulários
+│       ├── utils/                # Funções utilitárias (formatação de moeda)
+│       └── router.tsx            # Definição de rotas
+│
+└── README.md
+```
+
+---
+
+## Funcionalidades Implementadas
+
+- [x] CRUD completo de **Produtos** (nome, valor)
+- [x] CRUD completo de **Matérias-Primas** (nome, quantidade em estoque)
+- [x] **Associação** de matérias-primas a produtos (com quantidade necessária)
+- [x] **Capacidade produtiva** — cálculo de quantos produtos podem ser fabricados com o estoque atual
+- [x] Listagem com dados tabelados
+- [x] Validação de formulários (Zod + React Hook Form)
+- [x] Validação no back-end (Bean Validation)
+- [x] Tratamento global de exceções (ExceptionMappers)
+- [x] Seed automático de dados na primeira execução
+- [x] Swagger/OpenAPI disponível em `/q/swagger-ui`
+- [x] Interface responsiva (TailwindCSS)
+- [x] CORS configurado
+- [ ] Autenticação/autorização
+- [ ] Paginação no back-end
+- [ ] Cache
+
+---
+
+## Limitações & Próximos Passos
+
+### Limitações conhecidas
+
+- Sem autenticação — qualquer usuário pode acessar todos os endpoints
+- Listagens retornam todos os registros (sem paginação server-side)
+- Sem cache de consultas
+- Depende de Oracle XE rodando localmente (sem Docker Compose para subir o banco)
+- Sem testes automatizados no front-end
+
+### Melhorias planejadas
+
+- Adicionar autenticação JWT (Quarkus OIDC ou SmallRye JWT)
+- Implementar paginação e filtros na API
+- Docker Compose para subir Oracle + back-end + front-end
+- Testes de integração no back-end com `@QuarkusTest`
+- Testes unitários e e2e no front-end (Vitest + Playwright)
+- Cache com Quarkus Cache (`@CacheResult`)
+
+---
+
+## Autor
+
+**Isaias Batista dos Santos**
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/isaias-iotti)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](https://github.com/isaiasiotti18)
+[![Email](https://img.shields.io/badge/Email-D14836?style=flat&logo=gmail&logoColor=white)](mailto:isaiasiottiprofissional@gmail.com)
