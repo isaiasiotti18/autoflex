@@ -104,10 +104,10 @@ autoflex/
 │   │   ├── controller/           # Endpoints REST (JAX-RS)
 │   │   ├── domain/               # Entidades JPA (Product, RawMaterial, ProductRawMaterial)
 │   │   ├── dto/                  # DTOs de request/response por domínio
-│   │   ├── exception/            # Exceções de negócio + ExceptionMappers
-│   │   ├── helpers/production/   # Lógica de cálculo de capacidade produtiva
-│   │   ├── infra/                # DataSeeder (carga inicial de dados)
-│   │   ├── mapper/               # MapStruct mappers (Entity ↔ DTO)
+│   │   ├── exception/            # tratamento de exceções
+│   │   ├── helpers/production/   # helpers
+│   │   ├── infra/                # seeder
+│   │   ├── mapper/               # mappers (Entity ↔ DTO)
 │   │   ├── repository/           # Repositórios Panache
 │   │   └── service/              # Camada de serviço / regras de negócio
 │   └── src/main/resources/
