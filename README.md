@@ -32,12 +32,6 @@ Sistema web fullstack para gerenciar produtos, matérias-primas e calcular a cap
 | React Hook Form + Zod         | 7.71 / via resolvers |
 | React Compiler (babel plugin) | 1.0                  |
 
-### Dependências externas
-
-| Serviço                | Detalhes                                  |
-| ---------------------- | ----------------------------------------- |
-| **Oracle Database XE** | Instância local — `localhost:1521/XEPDB1` |
-
 ---
 
 ## Quick Start
