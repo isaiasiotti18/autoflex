@@ -1,13 +1,10 @@
-import { QueryErrorResetBoundary } from "@tanstack/react-query";
-import { useProductionCapacity } from "../../../hooks/useProductionCapacity";
-import { formatMoney2 } from "../../../utils/formatMoney";
-import { ErrorBoundary } from "react-error-boundary";
 import { Suspense } from "react";
-import { ProductionCapacityTableRow } from "./ProductionCapacityTableRow";
+import { QueryErrorResetBoundary } from "@tanstack/react-query";
+import { ErrorBoundary } from "react-error-boundary";
+
+import { ProductionCapacityTableRows } from "./ProductionCapacityTableRows";
 
 export function ProductionCapacityTableBody() {
-  const { data, refresh } = useProductionCapacity();
-
   return (
     <tbody>
       <QueryErrorResetBoundary>
@@ -16,9 +13,9 @@ export function ProductionCapacityTableBody() {
             onReset={reset}
             fallbackRender={({ resetErrorBoundary }) => (
               <tr>
-                <td colSpan={4} className="px-4 py-10 text-center">
+                <td colSpan={6} className="px-4 py-10 text-center">
                   <div className="space-y-2">
-                    <p className="text-sm text-red-600">Failed to load products.</p>
+                    <p className="text-sm text-red-600">Failed to load production capacity.</p>
                     <button
                       type="button"
                       onClick={resetErrorBoundary}
@@ -34,24 +31,13 @@ export function ProductionCapacityTableBody() {
             <Suspense
               fallback={
                 <tr>
-                  <td colSpan={4} className="px-4 py-10 text-center text-slate-500">
-                    Loading products...
+                  <td colSpan={6} className="px-4 py-10 text-center text-slate-500">
+                    Loading production capacity...
                   </td>
                 </tr>
               }
             >
-              {data.items.length === 0 ? (
-                <tr>
-                  <td colSpan={6} className="px-4 py-10 text-center text-slate-500">
-                    No results yet. Click <span className="font-medium">Refresh</span>.
-                  </td>
-                </tr>
-              ) : (
-                <ProductionCapacityTableRow
-                  grandTotalValue={data.grandTotalValue}
-                  items={data.items}
-                />
-              )}
+              <ProductionCapacityTableRows />
             </Suspense>
           </ErrorBoundary>
         )}
