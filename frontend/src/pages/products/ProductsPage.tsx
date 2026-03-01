@@ -47,7 +47,7 @@ export function ProductsPage() {
                     onReset={reset}
                     fallbackRender={({ resetErrorBoundary }) => (
                       <tr>
-                        <td colSpan={4} className="px-4 py-10 text-center">
+                        <td colSpan={5} className="px-4 py-10 text-center">
                           <div className="space-y-2">
                             <p className="text-sm text-red-600">Failed to load products.</p>
                             <button
